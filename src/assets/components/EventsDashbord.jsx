@@ -1,31 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
+import EventCard from './Events/EventCard'
+import eventApi from '../../api/eventApi';
 
 export default function EventsDashbord() {
+const [events, setEvents] =  useState([]);
+const [loading, setLoading] = useState(true);
+
+useEffect(() =>  {
+   eventApi.get('/api.Event')
+   .then(res => setEvents(res.data))
+   .catch(err => console.error(err))
+   .finaly(() => setLoading(false));
+}, []);
+
+if (loading){
+   return <p>Loading Events</p>
+}
+if (events.length === 0){
+   return <p>No events Found</p>
+}
   return (
             <div className="hero">
             <div className="event-view">
-                <div className="event-card">
-                     <div className="event-info">
-                        <span className="event-cat">Musik</span>
-                        <span className="event-status">Active</span>
-                     </div>
-                     <div className="event-bg">
-                        <img src="img/Eventheader.jpg" alt=""></img>
-                     </div>
-                     <div className="event-detals">
-                        <span className="event-date">June 5, 2029 - 3:00 PM</span>
-                        <span className="event-name">Sleep Token</span>
-                        <div className="event-location">
-                            <i className="fa-solid fa-location-dot"></i>
-                            <span>Ullevi</span>
-                        </div>
-                     </div>
 
-                     <div className="event-demand">
-                        <span className="event-tickets">50000/50000</span>
-                        <span className="min-price">850 kr</span>
-                     </div>
-                </div>
+            <EventCard key={e.id} event={e} />
 
             </div>
         </div>
