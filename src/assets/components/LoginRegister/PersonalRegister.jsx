@@ -1,40 +1,111 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import authApi from '../../../api/authApi'
 export default function PersonalRegister() {
+    const navigate = useNavigate()
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    confirm: ''
+  })
+  const [error, setError]     = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleChange = e => {
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setError(null)
+    if (form.password !== form.confirm) {
+      setError('Password does not match')
+      return
+    }
+    setLoading(true)
+    try {
+      await authApi.post('/api/auth/register', {
+        email:    form.email,
+        password: form.password
+      })
+      navigate('/login', { replace: true })
+    } catch (err) {
+      setError(err.response?.data || 'Register failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-       <div class="form-container">
-        <div class="form">
-            <div class="form-head">
-                <h1>Ventixe</h1>
-                <img src="img/Symbol.svg" alt=""/>
-            </div>
+    
+ <div className="form">
+      <div className="form-head">
+        <h1>Ventixe</h1>
+        <img src="/img/Symbol.svg" alt="Ventixe logo" />
+      </div>
 
-            <div class="form-title">
-                <h1>Register</h1>
-                <h2>Personal Account</h2>
-            </div>
+      <div className="form-title">
+        <h2>Register</h2>
+      </div>
 
-            <form class="login-portal-form" action="post">
-                
-                <label class="form-lable" for="Email">Email</label>
-                <input class="form-input" id="Email" type="text" placeholder="Email"/>
+      <form className="login-portal-form" onSubmit={handleSubmit} noValidate>
+        <label className="form-label" htmlFor="email">
+          Email
+        </label>
+        <input
+          className="form-input"
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
 
+        <label className="form-label" htmlFor="password">
+          Password
+        </label>
+        <input
+          className="form-input"
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          required
+          minLength={6}
+        />
 
-                <label class="form-lable" for="Password">Password</label>
-                <input class="form-input" id="Password" type="text" placeholder="Password"/>
+        <label className="form-label" htmlFor="confirm">
+          Confirm Password
+        </label>
+        <input
+          className="form-input"
+          id="confirm"
+          name="confirm"
+          type="password"
+          placeholder="Confirm Password"
+          value={form.confirm}
+          onChange={handleChange}
+          required
+        />
 
+        {error && <p className="error">{error}</p>}
 
-                <label class="form-lable" for="Confirm">Confirm Password</label>
-                <input class="form-input" id="Confirm" type="text" placeholder="Confirm Password"/>
+        <button className="btn-primary" type="submit" disabled={loading}>
+          {loading ? 'Registrerar…' : 'Register'}
+        </button>
+      </form>
 
-                <div class="terms-container">
-                    <input class="form-check" id="Terms" type="checkbox"/>
-                    <label class="form-lable" for="Terms">I Accept the Terms and Usage</label>
-                </div>
-
-                <button class="btn-primary" type="submit">Register</button>
-            </form>
-        </div>
+      <p className="form-footer">
+        Already have an account?{' '}
+        <Link to="/login" replace>
+          Sign in Here
+        </Link>
+      </p>
     </div>
   )
 }

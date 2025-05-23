@@ -1,26 +1,18 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import UserSummary from './partals/UserSummary'
-import SignInButton from './Buttons/SignInButton'
+import { AuthContext } from '../../contexts/AuthContext'
 
 export default function Header() {
+    const {token} = useContext(AuthContext)
   return (
         <div className="header">
             <div className="head-title">
                 <h1>DashBoard</h1>
-                <span>Hellor User, Welcome Back!</span>
+                <span>Hello, {token ? 'Welcome back!' : "guest"}</span>
             </div>
-            <div>
-                <input className="search-bar" type="text" placeholder="Search Anything"></input>
-            </div>
-            <div className="btn-group">
-                <button className="note-btn">
-                    <div className="note-group">
-                        <i className="fa-regular fa-bell"></i>
-                    </div>
-                </button>
-                <button className="note-btn"><i className="fa-solid fa-gear"></i></button>
-            </div>
-            <SignInButton/>
+
+           {token && <UserSummary/>}   
+         
         </div>
     )
 }
