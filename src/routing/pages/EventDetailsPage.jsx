@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext} from '../../contexts/AuthContext'
 import eventApi from '../../api/eventApi'
 import bookingApi from '../../api/bookingApi'
@@ -73,15 +73,17 @@ export default function EventDetailsPage() {
 
                 <div className="package-main">
                     <h2>Packages</h2>
-                    <div className="package-group">
-                        <h2 className="package-title">Standard Package</h2>
-                        <p className="package-seating">Standing</p>
-                        <p className="package-price">480SEK</p>
-                    </div> 
+                    <Link to={`/events/${id}/booking`}
+                    state={{from: location}}> 
+                        <div className="package-group">
+                                <h2 className="package-title">Standard Package</h2>
+                                <p className="package-seating">Standing</p>
+                                <p className="package-price">{event.price} SEK</p>
+                        </div> 
+                    </Link>
                 </div>
             </div>
 
         </div>
-    
   )
 }

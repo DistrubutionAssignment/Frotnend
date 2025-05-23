@@ -11,19 +11,19 @@ export default function Footer() {
     </div>
     <div className="footer-icons">
         <button className="media-btn">
-            <img src="/public/img/FacebookLogo.svg" alt="FacebookLogo"></img> 
+            <img src="/img/FacebookLogo.svg" alt="FacebookLogo"></img> 
         </button>
         <button className="media-btn">
-            <img src="/public/img/XLogo.svg" alt="XLogo"></img>
+            <img src="/img/XLogo.svg" alt="XLogo"></img>
         </button>
         <button className="media-btn">
-            <img src="/public/img/InstagramLogo.svg" alt="InstagramLogo"></img>
+            <img src="/img/InstagramLogo.svg" alt="InstagramLogo"></img>
         </button>
         <button className="media-btn">
-            <img src="/public/img/YoutubeLogo.svg" alt="YoutubeLogo"></img>
+            <img src="/img/YoutubeLogo.svg" alt="YoutubeLogo"></img>
         </button>
         <button className="media-btn">
-            <img src='/public/img/LinkedinLogo.svg' alt="LinkedinLogo"></img>
+            <img src='/img/LinkedinLogo.svg' alt="LinkedinLogo"></img>
         </button>
     </div>
 </div>
