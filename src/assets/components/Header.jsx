@@ -7,7 +7,7 @@ export default function Header() {
   return (
         <div className="header">
             <div className="head-title">
-                <h1>DashBoard</h1>
+                <h1>Dashbord</h1>
                 <span>Hello, {token ? 'Welcome back!' : "guest"}</span>
             </div>
 

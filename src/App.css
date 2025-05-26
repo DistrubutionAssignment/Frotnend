@@ -215,6 +215,9 @@ button, a{
         font-size: var(--heading-font-size-m);
     }
 }
+.logo-group:hover{
+    cursor:pointer
+}
 .add-group{
     display: flex;
     flex-direction: column;

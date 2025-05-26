@@ -1,40 +1,50 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import SignOutButton from './Buttons/SignOutButton'
+import { useNavigate, NavLink } from 'react-router-dom'
+import { AuthContext } from '../../contexts/AuthContext'
+
 
 export default function Sidebar() {
-  return (
-    <div className="side-bar">
-        <div className="logo-group">
-            <img src="/img/Symbol.svg" alt="Logo"></img>
-            <h1>Ventixe</h1>
-        </div>
-        <div className="nav-group">
-            <div className="nav-btn">
-                <img src="/img/Sidecons/SquaresFour.svg" alt=""></img>
-                <a href="#">Dashboard</a>
-            </div>
-            <div className="nav-btn">
-                <img src="/img/Sidecons/CheckSquare.svg" alt=""></img>
-                <a href="#">Bookings</a>
-            </div>
-            <div className="nav-btn">
-                <img src="/img/Sidecons/Receipt.svg" alt=""></img>
-                <a href="#">Invoices</a>
-            </div>
-            <div className="nav-btn">
-                <img src="/img/Sidecons/Ticket.svg" alt=""></img>
-                <a href="#">Events</a>
-            </div>
-            <div className="nav-btn">
-                <img src="/img/Sidecons/ListStar.svg" alt=""></img>
-                <a href="#">Feedback</a>
-            </div>
-        </div>
+  const { token } = useContext(AuthContext)
+  const navigate = useNavigate()
 
-        <div className="add-group dec-only">
-            <img src="img/Sidecons/addimage.svg" alt=""></img>
-        </div>
-        <SignOutButton/>
-</div>
-  )
+  const handleLogoClick = () => {
+    navigate('/', { replace: true })
+  }
+
+    return (
+        <div className="side-bar">
+            <div className="logo-group" onClick={handleLogoClick}>
+                <img src="/img/Symbol.svg" alt="Logo" />
+                <h1>Ventixe</h1>
+            </div>
+        {/*  shows regladless if we are logged in or not */}
+
+            <div className="nav-group">
+                <NavLink
+                    to="/"
+                    end
+                    className={({ isActive }) => `nav-btn${isActive ? ' active' : ''}`}
+                >
+                    <img src="/img/Sidecons/Ticket.svg" alt="Events" />
+                    <span>Events</span>
+                </NavLink>
+
+
+        {/* Only shows if we are logged in  */}
+
+                {token && (
+                    <NavLink
+                    to="/bookings"
+                    className={({ isActive }) => `nav-btn${isActive ? ' active' : ''}`}
+                    >
+                    <img src="/img/Sidecons/CheckSquare.svg" alt="Bookings" />
+                    <span>Bookings</span>
+                    </NavLink>
+                )}
+
+            </div>
+            <SignOutButton/>
+    </div>
+    )
 }
