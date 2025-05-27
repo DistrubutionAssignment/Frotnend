@@ -14,6 +14,14 @@ button, a{
     cursor: pointer;
 }
 
+.error{
+    align-self: center;
+    color: firebrick;
+}
+.loading{
+    align-self: center;
+}
+
 :root{
     --clr-primary100:#F26CF9;
     --clr-primary90:#F589FA;
@@ -720,5 +728,43 @@ gap:1rem;
         color:var(--clr-primary100);
         font-size: var(--title-font-size-xxl);
         font-weight: var(--fontweight-Regular);
+    }
+}
+
+.booking-main{
+    display: flex;
+    flex-direction: column;
+    padding:1rem;
+    gap: 1rem;
+    
+}
+.sorting-bar{
+    display: grid;
+    grid-template-columns: 10% 10% 15% 30% 5% 5% 1fr;
+    gap:2rem;
+    border-bottom:1px solid var(--clr-grey30);
+    padding:.5rem;
+    span{
+        color: var(--clr-grey70);
+        font-size: var(--title-font-size-l);
+    }    
+}
+.booking{
+    display: grid;
+    grid-template-columns: 10% 10% 15% 30% 5% 5% 1fr;
+    gap:2rem;
+    border-bottom:1px solid var(--clr-grey30);
+    padding:.5rem;
+    span{
+        color: var(--clr-grey100);
+        font-size: var(--title-font-size-l);
+        p{
+            font-size: var(--title-font-size-m);
+        }
+    }
+    p{
+        color: var(--clr-grey70);
+        font-size: var(--title-font-size-l);
+
     }
 }

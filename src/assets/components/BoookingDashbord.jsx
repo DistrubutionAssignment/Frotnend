@@ -24,11 +24,11 @@ export default function BoookingDashbord() {
         .finally(() => setLoading(false))
     }, [token, navigate])
 
-    if(loading) return <p>Loading Bookings...</p>
+    if(loading) return <p className='loading'>Loading Bookings...</p>
     if(error) return <p className="error">{error}</p>
     if(bookings.length === 0){
         
-        return <p>You have not made any bookings yet.</p>
+        return <p className='error'>You have not made any bookings yet.</p>
         
     } 
 

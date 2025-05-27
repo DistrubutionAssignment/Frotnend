@@ -1,45 +1,39 @@
-// src/contexts/AuthContext.jsx
-import React, { createContext, useState, useEffect } from 'react';
-import authApi from '../api/authApi';
+import React, { createContext, useState, useEffect } from 'react'
+import api from '../api/api'   
 
-// Create context
-export const AuthContext = createContext();
+export const AuthContext = createContext()
 
-// Provider component
 export function AuthProvider({ children }) {
-  // JWT token state
-  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const [token, setToken] = useState(() => localStorage.getItem('token'))
+  const [user, setUser]   = useState(null)
 
-  // Optional: user object state if you want later
-  const [user, setUser] = useState(null);
-
-  // Sync axios auth header when token changes
   useEffect(() => {
-    authApi.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : '';
-  }, [token]);
+    api.defaults.headers.common['Authorization'] = 
+      token ? `Bearer ${token}` : ''
+  }, [token])
 
-  // Login function
   const login = async (email, password) => {
-    const res = await authApi.post('/api/auth/login', { email, password });
-    const newToken = res.data.token;
-    setToken(newToken);
-    localStorage.setItem('token', newToken);
+    const res = await api.post(
+      import.meta.env.VITE_AUTH_API_URL + '/api/auth/login',
+      { email, password }
+    )
 
-    // Optionally fetch user profile here
-    // const profile = await authApi.get('/api/auth/me');
-    // setUser(profile.data);
-  };
+    const newToken = res.data.token
+    setToken(newToken)
+    localStorage.setItem('token', newToken)
 
-  // Logout function
+
+  }
+
   const logout = () => {
-    setToken(null);
-    localStorage.removeItem('token');
-    setUser(null);
-  };
+    setToken(null)
+    localStorage.removeItem('token')
+    setUser(null)
+  }
 
   return (
     <AuthContext.Provider value={{ token, login, logout, user }}>
       {children}
     </AuthContext.Provider>
-  );
+  )
 }

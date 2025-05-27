@@ -14,10 +14,10 @@ useEffect(() =>  {
 }, []);
 
 if (loading){
-   return <p>Loading Events</p>
+   return <p className='Loading'>Loading Events</p>
 }
 if (events.length === 0){
-   return <p>No events Found</p>
+   return <p className="Error">No events Found</p>
 }
   return (
          <div className="hero">
