@@ -1,29 +1,47 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import authApi from '../../../api/authApi'
+
 export default function PersonalRegister() {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
-    email: '',
+    email:    '',
     password: '',
-    confirm: ''
+    confirm:  ''
   })
-  const [error, setError]     = useState(null)
+  const [error, setError]     = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleChange = e => {
     const { name, value } = e.target
     setForm(f => ({ ...f, [name]: value }))
+    if (error) setError('') 
   }
 
   const handleSubmit = async e => {
     e.preventDefault()
-    setError(null)
-    if (form.password !== form.confirm) {
-      setError('Password does not match')
+
+    if (!form.email.trim()) {
+      setError('Enter a valid Email')
       return
     }
+    if (!/\S+@\S+\.\S+/.test(form.email)) {
+      setError('Enter a valid Email')
+      return
+    }
+    if (form.password.length < 6) {
+      setError('Password must be atleast 6 charachters long')
+      return
+    }
+    if (form.password !== form.confirm) {
+      setError('Password do not match')
+      return
+    }
+
     setLoading(true)
+    setError('')
+
     try {
       await authApi.post('/api/auth/register', {
         email:    form.email,
@@ -31,15 +49,19 @@ export default function PersonalRegister() {
       })
       navigate('/login', { replace: true })
     } catch (err) {
-      setError(err.response?.data || 'Register failed')
+      const apiError = err.response?.data || {}
+      const msg = apiError.message 
+               || apiError.title 
+               || err.response?.statusText 
+               || 'Something went wrong'
+      setError(msg)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    
- <div className="form">
+    <div className="form">
       <div className="form-head">
         <h1>Ventixe</h1>
         <img src="/img/Symbol.svg" alt="Ventixe logo" />
@@ -48,6 +70,8 @@ export default function PersonalRegister() {
       <div className="form-title">
         <h2>Register</h2>
       </div>
+
+      {error && <p className="error">{error}</p>}
 
       <form className="login-portal-form" onSubmit={handleSubmit} noValidate>
         <label className="form-label" htmlFor="email">
@@ -93,9 +117,11 @@ export default function PersonalRegister() {
           required
         />
 
-        {error && <p className="error">{error}</p>}
-
-        <button className="btn-primary" type="submit" disabled={loading}>
+        <button
+          className="btn-primary"
+          type="submit"
+          disabled={loading}
+        >
           {loading ? 'Registrerar…' : 'Register'}
         </button>
       </form>
@@ -103,7 +129,7 @@ export default function PersonalRegister() {
       <p className="form-footer">
         Already have an account?{' '}
         <Link to="/login" replace>
-          Sign in Here
+          Sign in here
         </Link>
       </p>
     </div>

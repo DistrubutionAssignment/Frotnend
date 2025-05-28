@@ -736,7 +736,8 @@ gap:1rem;
     flex-direction: column;
     padding:1rem;
     gap: 1rem;
-    
+    max-height: 850px;
+    overflow: auto;
 }
 .sorting-bar{
     display: grid;
