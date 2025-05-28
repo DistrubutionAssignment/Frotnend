@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext';
-import eventApi from '../../api/eventApi';
+import eventApi from '../../api/eventApi'
+import bookingApi from '../../api/bookingApi'
 
 export default function EventBookingPage() {
     const {id} = useParams();
@@ -25,7 +26,7 @@ export default function EventBookingPage() {
     const [error, setError] = useState(null)
 
     useEffect(() =>{
-        eventApi.get()
+        eventApi.get(`/api/event/${id}`)
         .then(res => setEvent(res.data))
         .catch(console.error)
         .finally(() => setLoading(false))
@@ -41,22 +42,43 @@ export default function EventBookingPage() {
       if (!token){
         return navigate ('login', {state: {from: location}})
       }
-      setSubmitting(true)
-      setError(null)
-      try{
-        payload = {
-          eventId: id,
-          ticketAmount: form.ticketAmount,
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          address: form.address,
-          city: form.city,
-          postalCode: form.postalCode
+
+    if (form.ticketAmount < 1) {
+      setError('You must purches atleast 1 ticket');
+      return;
+    }
+    if (!form.firstName.trim() || !form.lastName.trim()) {
+      setError('First and Last Name must be entered');
+      return;
+    }
+    // enkel e-post-kontroll
+    if (!/\S+@\S+\.\S+/.test(form.email)) {
+      setError('Please enter a valid Email Adress');
+      return;
+    }
+    if (!form.address.trim() || !form.city.trim() || !form.postalCode.trim()) {
+      setError('Adress, City and Postal-code is required!');
+      return;
+    }
+
+    setSubmitting(true)
+    setError(null)
+
+    try {
+      const payload = {
+        eventId:      id,
+        ticketAmount: form.ticketAmount,
+        firstName:    form.firstName,
+        lastName:     form.lastName,
+        email:        form.email,
+        address:      form.address,
+        city:         form.city,
+        postalCode:   form.postalCode
       }
 
       const res = await bookingApi.post('/api/booking', payload)
-      navigate(`/bookings/${res.data.id}/confirmation`, { state: res.data })
+      navigate(`/events/${id}/confirmation`, { state: res.data })
+
       } catch (err){
         setError(err.response?.data || err.message)
       } finally {
@@ -64,78 +86,99 @@ export default function EventBookingPage() {
       }
     }
 
-    if(loading) return <p>Loading booking form...</p>
-    if (!event) return <p>Event Not Found</p>
-  return (
-    <div>
-      <h1>Booking: {event.name}</h1>
-      <form onSubmit={handleBook}>
+    if(loading) return <p className='loading'>Loading booking form...</p>
+    if (!event) return <p className='error'>Event Not Found</p>
 
-        <div>
+  return (
+    <div className='booking-form-hero'>
+      <div className='booking-title'>
+         
+        <h2>Booking:</h2>
+        <h3>{event.name}</h3>
+      </div>
+
+      {error && <div className="error">{error}</div>}
+
+      <form className='booking-form' onSubmit={handleBook} noValidate>
+
+        <div className='booking-form-group'>
           <label>Ticket Amount</label>
           <input
             type="number" name="ticketAmount"
             min="1"
             value={form.ticketAmount}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'/>
         </div>
 
-        <div>
+        <div className='booking-form-group'>
           <label>First Name</label>
           <input
             type="text" name="firstName"
             min="1"
             value={form.firstName}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'
+            />
         </div>
 
-        <div>
+        <div className='booking-form-group'>
           <label>Last Name</label>
           <input 
             type="text" name="lastName"
             min="1"
             value={form.lastName}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'
+            />
         </div>
 
-        <div>
+        <div className='booking-form-group'>
           <label>Email</label>
           <input 
             type="text" name="email"
             min="1"
             value={form.email}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'
+            />
         </div>
 
-        <div>
+        <div className='booking-form-group'>
           <label>Adress</label>
           <input
             type="text" name="address"
             min="1"
             value={form.address}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'
+            />
         </div>
 
-        <div>
+        <div className='booking-form-group'>
           <label>City</label>
           <input 
             type="text" name="city"
             min="1"
             value={form.city}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'
+            />
         </div>
 
-        <div>
+        <div className='booking-form-group'>
           <label>Postal-code</label>
           <input 
             type="text" name="postalCode"
             min="1"
             value={form.postalCode}
-            onChange={handleChange}/>
+            onChange={handleChange}
+            className='booking-input'
+            />
         </div>
-        <p>Total Price: {event.price * form.ticketAmount} SEK</p>
+        <p className='booking-total'>Total Price: {event.price * form.ticketAmount} SEK</p>
 
-        <button type="submit" disabled={submitting}>
+        <button className='booking-submit' type="submit" disabled={submitting}>
             {submitting ? 'Booking...' : 'Confirm booking'}
         </button>
 
