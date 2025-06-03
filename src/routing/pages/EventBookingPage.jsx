@@ -39,14 +39,20 @@ export default function EventBookingPage() {
 
     const handleBook = async e => {
       e.preventDefault()
-      if (!token){
-        return navigate ('login', {state: {from: location}})
+      const amt = Number(form.ticketAmount)
+
+
+      
+      if (isNaN(amt) || amt < 1){
+      setError('You must purches atleast 1 ticket.')          
+        return;
+      }
+      if (isNaN(amt) || amt > 10){
+        setError('You cannot purches more then 10 tickets.')
+          return;
       }
 
-    if (form.ticketAmount < 1) {
-      setError('You must purches atleast 1 ticket');
-      return;
-    }
+
     if (!form.firstName.trim() || !form.lastName.trim()) {
       setError('First and Last Name must be entered');
       return;

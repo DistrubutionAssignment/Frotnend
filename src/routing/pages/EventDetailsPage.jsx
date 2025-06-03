@@ -1,17 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext} from '../../contexts/AuthContext'
 import eventApi from '../../api/eventApi'
 import bookingApi from '../../api/bookingApi'
 
 export default function EventDetailsPage() {
-    const {id} = useParams();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { token } = useContext(AuthContext);
+  const { id }     = useParams()
+  const navigate   = useNavigate()
+  const location   = useLocation()
+  const { token }  = useContext(AuthContext)
 
-    const [event, setEvent] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [event,   setEvent]   = useState(null)
+  const [loading, setLoading] = useState(true)
+
+    if (!token) {
+        return <Navigate to="/login" state={{ from: location }} replace />
+    }
 
     useEffect(() => {
         eventApi.get(`/api/Event/${id}`)
@@ -20,18 +24,11 @@ export default function EventDetailsPage() {
         .finally(() => setLoading(false))
     }, [id]);
 
-    const handleBook = () => {
-        if(!token)
-        {
-            navigate('/login', { state: {from: location}});
-        } 
-        else
-        {
-         bookingApi.post('/api/bookings', {eventId: id})
-         .then(() => navigate('/bookings'))   
-         .catch(err => console.error(err));
-        }
-    };
+  const handleBook = () => {
+    bookingApi.post('/api/booking', { eventId: id })
+      .then(() => navigate('/bookings'))
+      .catch(err => console.error(err))
+  }
 
     if(loading) return <p className='loading-text'>Loading Event...</p>
     if(!event) return <p className='loading-error'>The event could not be found...</p>
