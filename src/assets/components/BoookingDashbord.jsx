@@ -37,13 +37,13 @@ export default function BoookingDashbord() {
                 <div className="booking-main">
 
                     <div className="sorting-bar">
-                        <span>Booking Id</span>
-                        <span>Date</span>
-                        <span>Name</span>
-                        <span>Event</span>
-                        <span>Price</span>
-                        <span>Quantity</span>
-                        <span>Amount</span>
+                        <span id='booking-id'>Booking Id</span>
+                        <span id='Date'>Date</span>
+                        <span id='Name'>Name</span>
+                        <span id='Event'>Event</span>
+                        <span id='Price'>Price</span>
+                        <span id='Quantity'>Quantity</span>
+                        <span id='Amount'>Amount</span>
                     </div>
 
                     {bookings.map(b => (
@@ -59,7 +59,7 @@ export default function BoookingDashbord() {
 
                                 <span>{b.eventId}</span>
 
-                                <span>{b.price ?? '-'} SEK</span>
+                                <span id='booking-price'>{b.price ?? '-'} SEK</span>
 
                                 <span>{b.ticketAmount}</span>
 
