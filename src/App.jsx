@@ -7,6 +7,8 @@ import EventBookingPage from './routing/pages/EventBookingPage'
 import EventBookingConfirmation from './routing/pages/EventBookingConfirmation'
 import LoginForm from './assets/components/LoginRegister/LoginForm'
 import PersonalRegister from './assets/components/LoginRegister/PersonalRegister'
+import SendVerification from './routing/pages/SendVerfiication'
+import VerifyCode from './routing/pages/VerifyCode'
 import AuthLayout from './assets/layouts/AuthLayout'
 import BoookingDashbord from './assets/components/BoookingDashbord'
 
@@ -16,6 +18,8 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginForm/>} />
           <Route path="/register" element={<PersonalRegister/>} />
+          <Route path="/send-verification" element={<SendVerification />} />
+          <Route path="/verify-code" element={<VerifyCode />} />
         </Route>
 
         <Route element={<Layout />}>

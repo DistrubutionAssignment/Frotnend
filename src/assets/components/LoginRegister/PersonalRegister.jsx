@@ -47,7 +47,7 @@ export default function PersonalRegister() {
         email:    form.email,
         password: form.password
       })
-      navigate('/login', { replace: true })
+      navigate('/send-verification', { state: { email: form.email } })
     } catch (err) {
       const apiError = err.response?.data || {}
       const msg = apiError.message 
