@@ -22,7 +22,7 @@ export default function VerifyCode() {
     setStatusMessage(null);
 
     if (!email.trim() || !code.trim()) {
-      setStatusMessage({ type: 'error', text: 'E-postadress och kod krävs.' });
+      setStatusMessage({ type: 'error', text: 'email and code is required' });
       return;
     }
 
@@ -35,7 +35,7 @@ export default function VerifyCode() {
         await authApi.post('/api/auth/verify-email', { email });
         setStatusMessage({
           type: 'success',
-          text: 'E-post verifierad! Omdirigerar till inloggning…'
+          text: 'Email validated! Redirecting...'
         });
         setTimeout(() => {
           navigate('/login');
@@ -43,11 +43,11 @@ export default function VerifyCode() {
       } else {
         setStatusMessage({
           type: 'error',
-          text: res.data.message || 'Ogiltig kod eller utgången.'
+          text: res.data.message || 'Invalid or expired code.'
         });
       }
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Okänt fel vid verifikation.';
+      const msg = err.response?.data?.message || err.message || 'Error, Try again.';
       setStatusMessage({ type: 'error', text: `Fel: ${msg}` });
     } finally {
       setLoading(false);
@@ -57,7 +57,7 @@ export default function VerifyCode() {
   return (
     <div className="form-container">
       <div className="form">
-        <h2 className="form-title">Verifiera kod</h2>
+        <h2 className="form-title">Verify Account</h2>
 
         {statusMessage && (
           <p className={statusMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}>
@@ -74,7 +74,7 @@ export default function VerifyCode() {
             id="email"
             name="email"
             type="email"
-            placeholder="du@exempel.com"
+            placeholder="example@exempel.com"
             value={email}
             onChange={e => setEmail(e.target.value.trim())}
             required
@@ -96,7 +96,7 @@ export default function VerifyCode() {
           />
 
           <button className="btn-primary form-btn" type="submit" disabled={loading}>
-            {loading ? 'Verifierar…' : 'Verifiera'}
+            {loading ? 'Verifying' : 'Verifying'}
           </button>
         </form>
 
