@@ -31,7 +31,8 @@ export default function LoginForm() {
     setError('')
 
  try {
-    await login(form.email, form.password)
+    const audienceUrl = 'https://afbooking-service-csfkb2a2efdzh5av.swedencentral-01.azurewebsites.net'
+    await login(form.email, form.password, audienceUrl)
     navigate(from, { replace: true })
   } catch (err) {
     const apiError = err.response?.data
