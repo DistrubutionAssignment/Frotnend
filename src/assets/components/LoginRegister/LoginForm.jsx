@@ -31,18 +31,17 @@ export default function LoginForm() {
     setError('')
 
  try {
-    const audienceUrl = 'https://afbooking-service-csfkb2a2efdzh5av.swedencentral-01.azurewebsites.net'
-    await login(form.email, form.password, audienceUrl)
+    await login(form.email, form.password)
     navigate(from, { replace: true })
   } catch (err) {
-    const apiError = err.response?.data
+    const apiError = err.response?.data || {}
 const msg =
     apiError.message       
     || apiError.detail         
     || apiError.title         
     || err.response?.statusText
     || err.message
-    || 'Inloggningen misslyckades.'
+    || 'Login Failed'
     setError(msg)
   } finally {
     setLoading(false)

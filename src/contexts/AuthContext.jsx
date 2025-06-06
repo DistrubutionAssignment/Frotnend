@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await api.post(
       import.meta.env.VITE_AUTH_API_URL + '/api/auth/login',
-      { email, password, audience }
+      { email, password }
     )
 
     const newToken = res.data.token
