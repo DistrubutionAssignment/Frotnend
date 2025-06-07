@@ -13,7 +13,7 @@ export default function SendVerification() {
     setStatusMessage(null);
 
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
-      setStatusMessage({ type: 'error', text: 'Ange en giltig e-postadress.' });
+      setStatusMessage({ type: 'error', text: 'Enter a Valid Email' });
       return;
     }
 
@@ -27,10 +27,10 @@ export default function SendVerification() {
           navigate('/verify-code', { state: { email } });
         }, 1500);
       } else {
-        setStatusMessage({ type: 'error', text: res.data.message || 'Misslyckades att skicka kod.' });
+        setStatusMessage({ type: 'error', text: res.data.message || 'An error occured when sending code.' });
       }
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Okänt fel vid utskick.';
+      const msg = err.response?.data?.message || err.message || 'Unknown error';
       setStatusMessage({ type: 'error', text: `Fel: ${msg}` });
     } finally {
       setLoading(false);
@@ -40,7 +40,7 @@ export default function SendVerification() {
   return (
     <div className="form-container">
       <div className="form">
-        <h2 className="form-title">Skicka verifieringskod</h2>
+        <h2 className="form-title">Sending Verification</h2>
 
         {statusMessage && (
           <p className={statusMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}>
@@ -50,31 +50,31 @@ export default function SendVerification() {
 
         <form onSubmit={handleSend} className="login-portal-form" noValidate>
           <label className="form-label" htmlFor="email">
-            E-postadress
+            Email
           </label>
           <input
             className="form-input"
             id="email"
             name="email"
             type="email"
-            placeholder="du@exempel.com"
+            placeholder="Example@exempel.com"
             value={email}
             onChange={e => setEmail(e.target.value.trim())}
             required
           />
 
           <button className="btn-primary form-btn" type="submit" disabled={loading}>
-            {loading ? 'Skickar…' : 'Skicka kod'}
+            {loading ? 'Sending...' : 'Send Code'}
           </button>
         </form>
 
         <p className="form-footer">
-          Har du redan en kod?{' '}
+          Already have a code?{' '}
           <button
-            className="text-indigo-600 hover:underline"
+            className="btn-primary form-btn"
             onClick={() => navigate('/verify-code', { state: { email } })}
           >
-            Gå till verifikation
+            Go to verification!
           </button>
         </p>
       </div>
