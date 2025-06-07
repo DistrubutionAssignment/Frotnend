@@ -25,16 +25,17 @@ export default function BookingDashboard() {
             const allBookings = bkRes.data
             const eventsMap = evRes.data.reduce((map, ev) => {
             map[ev.id] = {
-              name: ev.name, //lastmin change so i didnt have to change the dto, as it only contains the ID and not full name from booking
+              name: ev.name,
               price: ev.price
-            }
-            return map
-            }, {}) 
+            };
+            return map;
+          }, {}); //lastmin change so i didnt have to change the dto, as it only contains the ID and not full name from booking
 
         const withExtras = allBookings.map(b => ({
           ...b,
-          eventName: eventsMap[b.eventId] || 'Unknown event'
-        }))
+          eventName:  eventsMap[b.eventId]?.name  || 'Unknown event',
+          eventPrice: eventsMap[b.eventId]?.price || 0
+        }));
         setBookings(withExtras)
       })
       .catch(err => {
