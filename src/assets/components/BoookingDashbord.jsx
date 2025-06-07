@@ -65,6 +65,7 @@ export default function BookingDashboard() {
           <span id='Date'>Date</span>
           <span id='Name'>Name</span>
           <span id='Event'>Event</span>
+          <span id='Price'>Price</span>
           <span id='Quantity'>Quantity</span>
           <span id='Amount'>Amount</span>
         </div>
@@ -78,6 +79,7 @@ export default function BookingDashboard() {
             </span>
             <span>{b.firstName} {b.lastName}</span>
             <span>{b.eventName}</span>
+            <span>{b.price}</span>
             <span>{b.ticketAmount}</span>
             <span>{b.totalPrice} SEK</span>
           </div>
