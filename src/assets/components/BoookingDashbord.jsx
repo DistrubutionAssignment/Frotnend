@@ -36,7 +36,7 @@ export default function BookingDashboard() {
       })
       .catch(err => {
         console.error(err)
-        setError(err.response?.data || 'Could not load data')
+        setError(err.response?.data || 'Could not load data. Navigate back to dashbord then to bookings.')
       })
       .finally(() => setLoading(false))
   }, [token, navigate])
