@@ -2,72 +2,88 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import bookingApi from '../../api/bookingApi'
+import eventApi from '../../api/eventApi'    
 
-export default function BoookingDashbord() {
-    const { token } = useContext(AuthContext)
-    const navigate = useNavigate()
-    const [bookings, setBookings] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
+export default function BookingDashboard() {
+  const { token } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const [bookings, setBookings] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-    useEffect(() => {
-        if(!token) {
-            navigate('/login', {replace: true, state: {from:{ pathname:'/bookings'}}})
-            return
-        }
-        bookingApi.get('/api/booking')
-        .then(res => setBookings(res.data))
-        .catch(err => {
-            console.error(err)
-            setError(err.response?.data || 'Could not GET bookings')
-        })
-        .finally(() => setLoading(false))
-    }, [token, navigate])
+  useEffect(() => {
+    if (!token) {
+      navigate('/login', { replace: true, state: { from: { pathname: '/bookings' } } })
+      return
+    }
 
-    if(loading) return <p className='loading'>Loading Bookings...</p>
-    if(error) return <p className="error">{error}</p>
-    if(bookings.length === 0){
-        
-        return <p className='error'>You have not made any bookings yet.</p>
-        
-    } 
+    Promise.all([
+      bookingApi.get('/api/booking'),
+      eventApi.get('/api/Event')
+    ])
+        .then(([bkRes, evRes]) => {
+            const allBookings = bkRes.data
+            const eventsMap = evRes.data.reduce((map, ev) => {
+            map[ev.id] = ev.name
+            return map
+            }, {}) 
+
+        const withNames = allBookings.map(b => ({
+          ...b,
+          eventName: eventsMap[b.eventId] || 'Unknown event'
+        }))
+        setBookings(withNames)
+      })
+      .catch(err => {
+        console.error(err)
+        setError(err.response?.data || 'Could not load data')
+      })
+      .finally(() => setLoading(false))
+  }, [token, navigate])
+
+  if (loading)    
+    return (
+      <div className="loading-container">
+        <img src="/img/Symbol.svg" alt="Loading" className="loading-spinner" />
+        <p className='loading-text'>Loading Bookings</p>
+      </div>
+    )
+
+  if (error) 
+    return <p className="error">{error}</p>
+
+  if (bookings.length === 0) {
+    return <p className='error'>You have not made any bookings yet.</p>
+  }
 
   return (
-            <div className="booking-hero">
-                <div className="booking-main">
+    <div className="booking-hero">
+      <div className="booking-main">
 
-                    <div className="sorting-bar">
-                        <span id='booking-id'>Booking Id</span>
-                        <span id='Date'>Date</span>
-                        <span id='Name'>Name</span>
-                        <span id='Event'>Event</span>
-                        <span id='Price'>Price</span>
-                        <span id='Quantity'>Quantity</span>
-                        <span id='Amount'>Amount</span>
-                    </div>
+        <div className="sorting-bar">
+          <span id='booking-id'>Booking Id</span>
+          <span id='Date'>Date</span>
+          <span id='Name'>Name</span>
+          <span id='Event'>Event</span>
+          <span id='Quantity'>Quantity</span>
+          <span id='Amount'>Amount</span>
+        </div>
 
-                    {bookings.map(b => (
-                            <div key={b.id} className="booking">
-                                <p>{b.id}</p>
+        {bookings.map(b => (
+          <div key={b.id} className="booking">
+            <p>{b.id}</p>
+            <span>
+              {new Date(b.bookingDate).toLocaleDateString()}&nbsp;
+              <p>{new Date(b.bookingDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+            </span>
+            <span>{b.firstName} {b.lastName}</span>
+            <span>{b.eventName}</span>
+            <span>{b.ticketAmount}</span>
+            <span>{b.totalPrice} SEK</span>
+          </div>
+        ))}
 
-                                <span>
-                                {new Date(b.bookingDate).toLocaleDateString()}&nbsp;
-                                <p>{new Date(b.bookingDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                </span>
-
-                                <span>{b.firstName} {b.lastName}</span>
-
-                                <span>{b.eventId}</span>
-
-                                <span id='booking-price'>{b.price ?? '-'} SEK</span>
-
-                                <span>{b.ticketAmount}</span>
-
-                                <span>{b.totalPrice} SEK</span>
-                            </div>
-                            ))}
-
-                </div>
-            </div>
-    )
+      </div>
+    </div>
+  )
 }

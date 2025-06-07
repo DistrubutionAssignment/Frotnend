@@ -30,7 +30,13 @@ export default function EventDetailsPage() {
       .catch(err => console.error(err))
   }
 
-    if(loading) return <p className='loading-text'>Loading Event...</p>
+    if(loading)   return(
+      <div className="loading-container">
+         <img src="/img/Symbol.svg" alt="Loading" className="loading-spinner" />
+         <p className='loading-text'>Loading Events</p>
+       </div>
+
+   )
     if(!event) return <p className='loading-error'>The event could not be found...</p>
 
   return (

@@ -18,7 +18,7 @@ button, a{
     align-self: center;
     color: firebrick;
 }
-.loading{
+.Loading{
     align-self: center;
 }
 
@@ -208,7 +208,8 @@ button, a{
     grid-template-rows:auto 1fr auto auto;
     align-items: center;
     justify-content: center;
-    padding: 0 1rem;
+    width: 223px;
+
 }
 .logo-group{
     display: flex;
@@ -225,15 +226,14 @@ button, a{
 .logo-group:hover{
     cursor:pointer
 }
-.add-group{
-    display: flex;
-    flex-direction: column;
-}
+
 .nav-group{
     align-self: start;
-    width: 100%;
+    width: 220px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 /*hero-parts*/
 .hero{
@@ -349,6 +349,26 @@ button, a{
         }
     }
 }
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;           /* eller valfri höjd */
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 /*footer-parts*/
 .footer{
     display: grid;
@@ -383,6 +403,10 @@ button, a{
     gap:1rem;
     padding: 1rem;;
 }
+
+
+
+
 /*btn-parts*/
 .form-btn{
     margin:1rem 0;
@@ -411,14 +435,14 @@ button, a{
     font-size: 20px;
 }
 .nav-btn{
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
     gap:1rem;
-    margin: 1rem 0;
+    margin: 1rem;
     align-items: center;
+    justify-content: start;
     width: 100%;
     img{
-        margin-left:1rem;
+        margin-left:35px;
     }
     span{
         color: var(--clr-Secondary100);
@@ -430,6 +454,9 @@ button, a{
 .nav-btn.active{
     color: var(--clr-Secondary100);
     border-left:4px solid var(--clr-primary90);
+        img{
+        margin-left:32px;
+    }
     span{
         color: var(--clr-primary100);
     }
@@ -437,6 +464,7 @@ button, a{
 .sign-out-btn{
     display:flex;
     gap: 1rem;
+    align-self: center;
     align-items: center;
     justify-content: center;
     background:var(--clr-cool-grey20);
@@ -445,10 +473,9 @@ button, a{
     font-weight: var(--fontweight-Regular);
     border:none;
     border-radius: var(--radious-primary);
-    margin:1rem 0;
+    margin:1rem;
     padding-top:1rem;
     padding-bottom:1rem;
-    width: 155px;
 }
 .sign-out-btn:hover{
     background-color: var(--clr-primary50);
@@ -1013,5 +1040,10 @@ gap:1rem;
                 width:300px;
             }
         }
+    }
+    .nav-btn.active {
+        color: var(--clr-Secondary100);
+        border-left: 1px solid var(--clr-primary90);
+        border-right: 1px solid var(--clr-primary90);
     }
 }

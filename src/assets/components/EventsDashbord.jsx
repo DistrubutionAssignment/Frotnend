@@ -14,7 +14,13 @@ useEffect(() =>  {
 }, []);
 
 if (loading){
-   return <p className='Loading'>Loading Events</p>
+   return(
+      <div className="loading-container">
+         <img src="/img/Symbol.svg" alt="Loading" className="loading-spinner" />
+         <p className='loading-text'>Loading Events</p>
+       </div>
+
+   )   
 }
 if (events.length === 0){
    return <p className="Error">No events Found</p>

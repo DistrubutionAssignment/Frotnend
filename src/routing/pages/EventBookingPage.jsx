@@ -92,7 +92,13 @@ export default function EventBookingPage() {
       }
     }
 
-    if(loading) return <p className='loading'>Loading booking form...</p>
+    if(loading)    return(
+      <div className="loading-container">
+         <img src="/img/Symbol.svg" alt="Loading" className="loading-spinner" />
+         <p className='loading-text'>Loading booking form</p>
+       </div>
+
+   )
     if (!event) return <p className='error'>Event Not Found</p>
 
   return (
