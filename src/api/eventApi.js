@@ -1,4 +1,4 @@
-import api from './api';
+import api from './api'; //individualcalls for each api, imports urls from .env
 
 const eventApi = {
      get:    (url, config) => api.get(import.meta.env.VITE_EVENT_API_URL + url, config),

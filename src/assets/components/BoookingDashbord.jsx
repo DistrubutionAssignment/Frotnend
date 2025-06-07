@@ -11,12 +11,12 @@ export default function BookingDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
+  useEffect(() => { //navigerar to login if we are not already logged in. returns bookings after successfull login.
     if (!token) {
       navigate('/login', { replace: true, state: { from: { pathname: '/bookings' } } })
       return
     }
-
+    //calling 
     Promise.all([
       bookingApi.get('/api/booking'),
       eventApi.get('/api/Event')
@@ -25,21 +25,21 @@ export default function BookingDashboard() {
             const allBookings = bkRes.data
             const eventsMap = evRes.data.reduce((map, ev) => {
             map[ev.id] = {
-              name: ev.name,
+              name: ev.name, //lastmin change so i didnt have to change the dto, as it only contains the ID and not full name from booking
               price: ev.price
             }
             return map
             }, {}) 
 
-        const withNames = allBookings.map(b => ({
+        const withExtras = allBookings.map(b => ({
           ...b,
           eventName: eventsMap[b.eventId] || 'Unknown event'
         }))
-        setBookings(withNames)
+        setBookings(withExtras)
       })
       .catch(err => {
         console.error(err)
-        setError(err.response?.data || 'Could not load data. Navigate back to dashbord then to bookings.')
+        setError(err.response?.data || 'Could not load data. Navigate back to dashbord then to bookings.') //genereall crash, often happens when we randomly looses token
       })
       .finally(() => setLoading(false))
   }, [token, navigate])

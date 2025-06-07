@@ -29,10 +29,10 @@ export default function VerifyCode() {
     setLoading(true);
     try {
 
-      const res = await verificationApi.post('/verify', { email, code });
+      const res = await verificationApi.post('/verify', { email, code }); //verifyes from the verificationapi
       if (res.data.succeeded) {
 
-        await authApi.post('/api/auth/verify-email', { email });
+        await authApi.post('/api/auth/verify-email', { email }); //after successfull validation, sends the email back to authService to flag the user with Email verifyed = True
         setStatusMessage({
           type: 'success',
           text: 'Email validated! Redirecting...'
@@ -81,7 +81,7 @@ export default function VerifyCode() {
           />
 
           <label className="form-label" htmlFor="code">
-            Verifieringskod
+            Verifcation Code
           </label>
           <input
             className="form-input"
@@ -101,9 +101,9 @@ export default function VerifyCode() {
         </form>
 
         <p className="form-footer">
-          Ej fått kod?{' '}
+          Havent recived a code?{' '}
           <Link to="/send-verification" state={{ email }}>
-            Skicka kod igen
+            Send again!
           </Link>
         </p>
       </div>

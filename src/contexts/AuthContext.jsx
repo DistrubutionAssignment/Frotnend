@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import api from '../api/api'   
 
-export const AuthContext = createContext()
+export const AuthContext = createContext() //context that handles difrent states, as in logged in, logged out, valid token and so on
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('token'))

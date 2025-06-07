@@ -47,10 +47,10 @@ export default function PersonalRegister() {
         email:    form.email,
         password: form.password
       })
-      navigate('/send-verification', { state: { email: form.email } })
+      navigate('/send-verification', { state: { email: form.email } }) //sends you directly to the verification pages.
     } catch (err) {
       const apiError = err.response?.data || {}
-      const msg = apiError.message 
+      const msg = apiError.message  //fetches error from api
                || apiError.title 
                || err.response?.statusText 
                || 'Something went wrong'

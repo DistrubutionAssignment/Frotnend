@@ -57,7 +57,7 @@ export default function EventBookingPage() {
       setError('First and Last Name must be entered');
       return;
     }
-    // enkel e-post-kontroll
+    
     if (!/\S+@\S+\.\S+/.test(form.email)) {
       setError('Please enter a valid Email Adress');
       return;

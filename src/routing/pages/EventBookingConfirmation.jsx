@@ -7,7 +7,7 @@ export default function EventBookingConfirmation() {
   const { id }   = useParams()
 
   if (!booking.id) {
-    return <p className="error">Ingen bokningsdata att visa.</p>
+    return <p className="error">No bookingdata to show</p>
   }
   return (
     <div className="confirmation">

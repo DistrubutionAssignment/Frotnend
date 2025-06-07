@@ -14,7 +14,7 @@ export default function EventDetailsPage() {
   const [loading, setLoading] = useState(true)
 
     if (!token) {
-        return <Navigate to="/login" state={{ from: location }} replace />
+        return <Navigate to="/login" state={{ from: location }} replace /> //no token you go to login.
     }
 
     useEffect(() => {

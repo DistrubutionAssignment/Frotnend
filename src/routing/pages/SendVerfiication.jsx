@@ -20,9 +20,9 @@ export default function SendVerification() {
     setLoading(true);
     try {
 
-      const res = await verificationApi.post('/send', { email });
+      const res = await verificationApi.post('/send', { email }); //calls send endpoint in the verificationapi
       if (res.data.succeeded) {
-        setStatusMessage({ type: 'success', text: 'Kod skickad! Kolla din inkorg.' });
+        setStatusMessage({ type: 'success', text: 'Code sent. This might take a minuite or two, also check your spam mail.' }); //set a statusmessage so the user dosent spamclick
         setTimeout(() => {
           navigate('/verify-code', { state: { email } });
         }, 1500);
@@ -31,7 +31,7 @@ export default function SendVerification() {
       }
     } catch (err) {
       const msg = err.response?.data?.message || err.message || 'Unknown error';
-      setStatusMessage({ type: 'error', text: `Error: ${msg}` });
+      setStatusMessage({ type: 'error', text: `Error: ${msg}` }); //fetches api error
     } finally {
       setLoading(false);
     }
@@ -43,9 +43,9 @@ export default function SendVerification() {
         <h2 className="form-title">Sending Verification</h2>
 
         {statusMessage && (
-          <p className={statusMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}>
+          <p className={statusMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}> 
             {statusMessage.text}
-          </p>
+          </p> //this dosent work lol
         )}
 
         <form onSubmit={handleSend} className="login-portal-form" noValidate>

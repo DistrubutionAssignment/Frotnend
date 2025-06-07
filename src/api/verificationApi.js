@@ -1,4 +1,4 @@
-import api from './api'
+import api from './api' //individualcalls for each api, imports urls from .env
 
 const verificationApi = {
   post: (url, data, config) =>
