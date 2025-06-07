@@ -209,7 +209,6 @@ button, a{
     align-items: center;
     justify-content: center;
     padding: 0 1rem;
-    width: 223px;
 }
 .logo-group{
     display: flex;
@@ -232,6 +231,9 @@ button, a{
 }
 .nav-group{
     align-self: start;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 /*hero-parts*/
 .hero{
@@ -414,20 +416,21 @@ button, a{
     gap:1rem;
     margin: 1rem 0;
     align-items: center;
+    width: 100%;
     img{
         margin-left:1rem;
     }
-    a{
+    span{
         color: var(--clr-Secondary100);
         font-weight: var(--fontweight-Regular);
         font-size:var(--btn-font-size-l);
 
     }
 }
-.nav-btn:active{
+.nav-btn.active{
     color: var(--clr-Secondary100);
     border-left:4px solid var(--clr-primary90);
-    a{
+    span{
         color: var(--clr-primary100);
     }
 }

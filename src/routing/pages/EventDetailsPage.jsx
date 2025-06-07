@@ -39,7 +39,7 @@ export default function EventDetailsPage() {
                 
                 <div className="details-main">
                     <div className="details-img">
-                        <img src={event.imgageUrl ?? '/img/Eventheader.jpg'} alt={event.name}
+                        <img src={event.imgageUrl ?? '/img/placeholder.jpg'} alt={event.name}
                          />
                     </div>
 

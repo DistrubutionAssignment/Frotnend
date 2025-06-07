@@ -10,7 +10,7 @@ export default function EventCard({ event }) {
     <Link to={`/events/${event.id}`}>
         <div className="event-card">
                 <div className="event-bg">
-                    <img src={event.imgUrl} alt={event.name}></img>
+                    <img src={event.imgageUrl ?? '/img/placeholder.jpg'} alt={event.name}></img>
                 </div>
 
                 <div className="event-detals">
