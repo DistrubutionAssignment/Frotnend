@@ -24,7 +24,10 @@ export default function BookingDashboard() {
         .then(([bkRes, evRes]) => {
             const allBookings = bkRes.data
             const eventsMap = evRes.data.reduce((map, ev) => {
-            map[ev.id] = ev.name
+            map[ev.id] = {
+              name: ev.name,
+              price: ev.price
+            }
             return map
             }, {}) 
 
@@ -79,7 +82,7 @@ export default function BookingDashboard() {
             </span>
             <span>{b.firstName} {b.lastName}</span>
             <span>{b.eventName}</span>
-            <span>{b.price}</span>
+            <span>{b.eventPrice} SEK</span>
             <span>{b.ticketAmount}</span>
             <span>{b.totalPrice} SEK</span>
           </div>
