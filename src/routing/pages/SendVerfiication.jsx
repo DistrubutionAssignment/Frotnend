@@ -31,7 +31,7 @@ export default function SendVerification() {
       }
     } catch (err) {
       const msg = err.response?.data?.message || err.message || 'Unknown error';
-      setStatusMessage({ type: 'error', text: `Fel: ${msg}` });
+      setStatusMessage({ type: 'error', text: `Error: ${msg}` });
     } finally {
       setLoading(false);
     }
